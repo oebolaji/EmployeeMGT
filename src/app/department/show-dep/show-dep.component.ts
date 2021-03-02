@@ -34,6 +34,7 @@ export class ShowDepComponent implements OnInit {
   refreshDepList(){
     this.service.getDepList().subscribe(data=> {
       this.DepartmentList=data;
+      this.DepartmentListWithoutFilter=data;
     })
   }
 
@@ -55,14 +56,14 @@ export class ShowDepComponent implements OnInit {
   }
 
   deleteClick(item){
-    // if(confirm('Are you Sure you want to delete for '+ item.DepartmentName)){
-    //   this.service.deleteDepartment(item.DepartmentId).subscribe(data => {
-    //     alert(data.toString());
-    //     this.refreshDepList();
-    //   })
-    // }
+    if(confirm('Are you Sure you want to delete for '+ item.DepartmentName)){
+      this.service.deleteDepartment(item.DepartmentId).subscribe(data => {
+        alert(data.toString());
+        this.refreshDepList();
+      })
+    }
 
-    this.dialogService.openConfirmDialog();
+    // this.dialogService.openConfirmDialog();
 
 
 
@@ -73,6 +74,30 @@ export class ShowDepComponent implements OnInit {
   closeClick(){
     this.ActivateAddEditDepComp=false;
     this.refreshDepList();
+  }
+
+  FilterFn(){
+    var DepartmentIdFilter = this.DepartmentIdFilter;
+    var DepartmentNameFilter = this.DepartmentNameFilter;
+
+    this.DepartmentList = this.DepartmentListWithoutFilter.filter(function (el){
+      return el.DepartmentId.toString().toLowerCase().includes(
+        DepartmentIdFilter.toString().trim().toLowerCase()
+      )&&
+      el.DepartmentName.toString().toLowerCase().includes(
+        DepartmentNameFilter.toString().trim().toLowerCase()
+      )
+    })
+  }
+
+  sortResult(prop,asc){
+    this.DepartmentList = this.DepartmentListWithoutFilter.sort(function(a,b){
+      if(asc){
+          return (a[prop]>b[prop])?1 : ((a[prop]<b[prop]) ?-1 :0);
+      }else{
+        return (b[prop]>a[prop])?1 : ((b[prop]<a[prop]) ?-1 :0);
+      }
+    })
   }
 
 }

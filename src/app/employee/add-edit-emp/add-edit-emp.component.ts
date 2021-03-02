@@ -25,7 +25,10 @@ export class AddEditEmpComponent implements OnInit {
 
   loadDepartmentList(){
     this.service.getAllDepartmentNames().subscribe((data:any)=>{
+      console.log(data ,"data");
       this.DepartmentsList=data;
+      console.log(this.DepartmentsList ,"a data");
+
 
       this.EmployeeId=this.emp.EmployeeId;
       this.EmployeeName=this.emp.EmployeeName;

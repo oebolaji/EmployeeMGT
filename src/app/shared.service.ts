@@ -8,7 +8,7 @@ import {Observable} from 'rxjs';
 })
 export class SharedService {
   readonly APIUrl="http://localhost:50602/api";
-  readonly PhotoUrl = "http://localhost:50602/Photos";
+  readonly PhotoUrl = "http://localhost:50602/Photos/";
 
   constructor(private http:HttpClient) { }
 
@@ -26,8 +26,10 @@ export class SharedService {
   }
 
   deleteDepartment(val:any) {
-    return this.http.delete(this.APIUrl+'/Department', val)
+    return this.http.delete(this.APIUrl+'/Department/'+val)
   }
+
+
 
   getEmpList():Observable<any[]>{
     return this.http.get<any>(this.APIUrl+'/Employee');
@@ -43,11 +45,11 @@ export class SharedService {
   }
 
   deleteEmployee(val:any) {
-    return this.http.delete(this.APIUrl+'/Employee', val)
+    return this.http.delete(this.APIUrl+'/Employee/'+val)
   }
 
   UploadPhoto(val:any){
-    return this.http.post(this.APIUrl+'/Employee/SaveFile',val)
+    return this.http.post(this.APIUrl+'/Employee/SaveFile',val);
   }
 
   getAllDepartmentNames():Observable<any[]>{
